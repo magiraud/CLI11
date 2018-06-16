@@ -24,7 +24,7 @@ TEST(THelp, Basic) {
 
 TEST(THelp, Footer) {
     CLI::App app{"My prog"};
-    app.set_footer("Report bugs to bugs@example.com");
+    app.footer("Report bugs to bugs@example.com");
 
     std::string help = app.help();
 
@@ -128,7 +128,7 @@ TEST(THelp, VectorOpts) {
 
 TEST(THelp, MultiPosOpts) {
     CLI::App app{"My prog"};
-    app.set_name("program");
+    app.name("program");
     std::vector<int> x, y;
     app.add_option("quick", x, "Disc")->expected(2);
     app.add_option("vals", y, "Other");
@@ -310,8 +310,8 @@ TEST(THelp, OnlyOneHelp) {
     CLI::App app{"My prog"};
 
     // It is not supported to have more than one help flag, last one wins
-    app.set_help_flag("--help", "No short name allowed");
-    app.set_help_flag("--yelp", "Alias for help");
+    app.help_flag("--help", "No short name allowed");
+    app.help_flag("--yelp", "Alias for help");
 
     std::vector<std::string> input{"--help"};
     EXPECT_THROW(app.parse(input), CLI::ExtrasError);
@@ -321,8 +321,8 @@ TEST(THelp, OnlyOneAllHelp) {
     CLI::App app{"My prog"};
 
     // It is not supported to have more than one help flag, last one wins
-    app.set_help_all_flag("--help-all", "No short name allowed");
-    app.set_help_all_flag("--yelp", "Alias for help");
+    app.help_all_flag("--help-all", "No short name allowed");
+    app.help_all_flag("--yelp", "Alias for help");
 
     std::vector<std::string> input{"--help-all"};
     EXPECT_THROW(app.parse(input), CLI::ExtrasError);
@@ -332,7 +332,7 @@ TEST(THelp, OnlyOneAllHelp) {
     EXPECT_THROW(app.parse(input2), CLI::CallForAllHelp);
 
     // Remove the flag
-    app.set_help_all_flag();
+    app.help_all_flag();
     app.reset();
     std::vector<std::string> input3{"--yelp"};
     EXPECT_THROW(app.parse(input3), CLI::ExtrasError);
@@ -340,7 +340,7 @@ TEST(THelp, OnlyOneAllHelp) {
 
 TEST(THelp, RemoveHelp) {
     CLI::App app{"My prog"};
-    app.set_help_flag();
+    app.help_flag();
 
     std::string help = app.help();
 
@@ -359,7 +359,7 @@ TEST(THelp, RemoveHelp) {
 
 TEST(THelp, NoHelp) {
     CLI::App app{"My prog"};
-    app.set_help_flag();
+    app.help_flag();
 
     std::string help = app.help();
 
@@ -379,7 +379,7 @@ TEST(THelp, NoHelp) {
 TEST(THelp, CustomHelp) {
     CLI::App app{"My prog"};
 
-    CLI::Option *help_option = app.set_help_flag("--yelp", "display help and exit");
+    CLI::Option *help_option = app.help_flag("--yelp", "display help and exit");
     EXPECT_EQ(app.get_help_ptr(), help_option);
 
     std::string help = app.help();
@@ -424,7 +424,7 @@ TEST(Exit, ErrorWithHelp) {
 
 TEST(Exit, ErrorWithAllHelp) {
     CLI::App app{"My prog"};
-    app.set_help_all_flag("--help-all", "All help");
+    app.help_all_flag("--help-all", "All help");
 
     std::vector<std::string> input{"--help-all"};
     try {
@@ -492,7 +492,7 @@ TEST_F(CapturedHelp, CallForAllHelp) {
     EXPECT_EQ(err.str(), "");
 }
 TEST_F(CapturedHelp, CallForAllHelpOutput) {
-    app.set_help_all_flag("--help-all", "Help all");
+    app.help_all_flag("--help-all", "Help all");
     app.add_subcommand("one", "One description");
     CLI::App *sub = app.add_subcommand("two");
     sub->add_flag("--three");
@@ -535,7 +535,7 @@ TEST_F(CapturedHelp, NormalError) {
 }
 
 TEST_F(CapturedHelp, RepacedError) {
-    app.set_failure_message(CLI::FailureMessage::help);
+    app.failure_message(CLI::FailureMessage::help);
 
     EXPECT_EQ(run(CLI::ExtrasError({"Thing"})), static_cast<int>(CLI::ExitCodes::ExtrasError));
     EXPECT_EQ(out.str(), "");

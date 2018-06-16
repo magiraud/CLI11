@@ -8,7 +8,7 @@ class MyFormatter : public CLI::Formatter {
 
 int main(int argc, char **argv) {
     CLI::App app;
-    app.set_help_all_flag("--help-all", "Show all help");
+    app.help_all_flag("--help-all", "Show all help");
 
     auto fmt = std::make_shared<MyFormatter>();
     fmt->column_width(15);

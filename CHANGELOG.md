@@ -36,7 +36,9 @@ Validators are now much more powerful [#118], all built in validators upgraded t
 
 Other changes:
 
-* Dropped `set_*` names on options, using `type_name` and `type_size` instead of `set_custom_option`. Methods return this.
+* Dropped `set_` on Option's `type_name`, `default_str`, and `default_val`
+* Replaced `set_custom_option` with `type_name` and `type_size` instead of `set_custom_option`. Methods return `this`.
+* Removed `set_` from App's `failure_message`, `footer`, `callback`, `name`, `help_flag`, and `help_all_flag`
 * Added `->each()` to make adding custom callbacks easier [#126]
 * Added filter argument to `get_subcommands`, `get_options`; use empty filter `{}` to avoid filtering
 * Added `get_groups()` to get groups
@@ -195,7 +197,7 @@ favorite CLI programs. Error messages and help messages are better and more flex
 > * `app.parse` no longer returns a vector. Instead, use `app.remaining(true)`.
 > * `"hidden"` is no longer a special group name, instead use `""`
 > * Validators API has changed to return an error string; use `.empty()` to get the old bool back
-> * Use `.set_help_flag` instead of accessing the help pointer directly (discouraged, but not removed yet)
+> * Use `.help_flag` instead of accessing the help pointer directly (discouraged, but not removed yet)
 > * `add_config` has been renamed to `set_config`
 > * Errors thrown in some cases are slightly more specific
 

@@ -8,7 +8,7 @@ int main(int argc, char **argv) {
 Note that this will not shortcut `->required` and other similar options.)raw"};
 
     // Remove help flag because it shortcuts all processing
-    test.set_help_flag();
+    test.help_flag();
 
     // Add custom flag that activates help
     auto help = test.add_flag("-h,--help", "Request help");

@@ -181,10 +181,9 @@ class App {
         // Inherit if not from a nullptr
         if(parent_ != nullptr) {
             if(parent_->help_ptr_ != nullptr)
-                set_help_flag(parent_->help_ptr_->get_name(false, true), parent_->help_ptr_->get_description());
+                help_flag(parent_->help_ptr_->get_name(false, true), parent_->help_ptr_->get_description());
             if(parent_->help_all_ptr_ != nullptr)
-                set_help_all_flag(parent_->help_all_ptr_->get_name(false, true),
-                                  parent_->help_all_ptr_->get_description());
+                help_all_flag(parent_->help_all_ptr_->get_name(false, true), parent_->help_all_ptr_->get_description());
 
             /// OptionDefaults
             option_defaults_ = parent_->option_defaults_;
@@ -210,7 +209,7 @@ class App {
 
     /// Create a new program. Pass in the same arguments as main(), along with a help string.
     explicit App(std::string description_ = "", std::string name = "") : App(description_, name, nullptr) {
-        set_help_flag("-h,--help", "Print this help message and exit");
+        help_flag("-h,--help", "Print this help message and exit");
     }
 
     /// virtual destructor
@@ -222,13 +221,13 @@ class App {
     /// it is not possible to overload on std::function (fixed in c++14
     /// and backported to c++11 on newer compilers). Use capture by reference
     /// to get a pointer to App if needed.
-    App *set_callback(std::function<void()> callback) {
+    App *callback(std::function<void()> callback) {
         callback_ = callback;
         return this;
     }
 
     /// Set a name for the app (empty will use parser to set the name)
-    App *set_name(std::string name = "") {
+    App *name(std::string name = "") {
         name_ = name;
         return this;
     }
@@ -400,7 +399,7 @@ class App {
     }
 
     /// Set a help flag, replace the existing one if present
-    Option *set_help_flag(std::string name = "", std::string description = "") {
+    Option *help_flag(std::string name = "", std::string description = "") {
         if(help_ptr_ != nullptr) {
             remove_option(help_ptr_);
             help_ptr_ = nullptr;
@@ -417,7 +416,7 @@ class App {
     }
 
     /// Set a help all flag, replaced the existing one if present
-    Option *set_help_all_flag(std::string name = "", std::string description = "") {
+    Option *help_all_flag(std::string name = "", std::string description = "") {
         if(help_all_ptr_ != nullptr) {
             remove_option(help_all_ptr_);
             help_all_ptr_ = nullptr;
@@ -901,7 +900,7 @@ class App {
     }
 
     /// Provide a function to print a help message. The function gets access to the App pointer and error.
-    void set_failure_message(std::function<std::string(const App *, const Error &e)> function) {
+    void failure_message(std::function<std::string(const App *, const Error &e)> function) {
         failure_message_ = function;
     }
 
@@ -1012,7 +1011,7 @@ class App {
     ///@{
 
     /// Set footer.
-    App *set_footer(std::string footer) {
+    App *footer(std::string footer) {
         footer_ = footer;
         return this;
     }
